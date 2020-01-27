@@ -31,6 +31,8 @@ if [ "$output" = "NOT_EXIST" ]; then
   lxc file push ./create_base_machine base-machine/home/ubuntu/create_base_machine
   echo "Executing setup file to machine $i..."
   lxc exec base-machine -- sudo --login --user ubuntu bash -ilc "sh create_base_machine"
+  sleep 10
+  lxc stop base-machine
 fi
 
 # Instantiate the machines

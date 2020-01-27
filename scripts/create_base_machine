@@ -57,6 +57,7 @@ make
 # Clone main repository
 cd /home/ubuntu && \
 git clone https://github.com/nachikettapas/patching-lightning-modified.git && \
+mv patching-lightning-modified patching-lightning && \
 cd patching-lightning && \
 npm install && \
 cd node_modules/webtorrent/ && \
@@ -67,4 +68,8 @@ export LC_ALL=C && \
 sudo apt install -y python3-pip && \
 cd patching-lightning/Utils/AddressGeneration && \
 sudo pip3 install -r requirements.txt
+
+# Create bitcoin and lightning directories
+mkdir -p /home/ubuntu/.bitcoin && \
+mkdir -p /home/ubuntu/.lightning
 
