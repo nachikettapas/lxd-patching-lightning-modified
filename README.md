@@ -1,2 +1,2 @@
-# lxd-patching-lightning-modified
-Modified code for lxd containers.
+# lxd-patching-lightning
+Lxd variation of the patching lightning

@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Basic update
+sudo apt-get -y update
+sudo apt-get -y upgrade  
+
+# Install node 10
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - && \
+sudo apt-get install -y nodejs
+
+# Bitcoin repository addition and installation
+sudo apt-get install -y \
+ build-essential \
+ libtool \
+ autotools-dev \
+ autoconf \
+ libssl-dev libboost-all-dev && \
+sudo apt-add-repository -y ppa:bitcoin/bitcoin && \
+sudo apt-get -y update && \
+sudo apt-get install -y bitcoin-qt bitcoind
+
+# Lightning dependencies installation
+sudo apt-get install -y \
+ autoconf \
+ automake \
+ build-essential \
+ git \
+ libtool \
+ libgmp-dev \
+ libsqlite3-dev \
+ python \
+ python3 \
+ net-tools \
+ zlib1g-dev \
+ libbase58-dev \
+ jq \
+ python3-mako \
+ gettext \
+ curl
+
+cd /home/ubuntu && /
+wget "https://download.libsodium.org/libsodium/releases/LATEST.tar.gz" && \
+tar -xvf ./LATEST.tar.gz && \
+cd libsodium-stable && \
+./configure && \
+make && \
+make check && \
+sudo make install
+
+# Lightning repo setup
+cd /home/ubuntu && \
+git clone https://github.com/ElementsProject/lightning.git && \
+cd lightning && \
+./configure && \
+make
+
+# Clone main repository
+cd /home/ubuntu && \
+git clone https://github.com/nachikettapas/patching-lightning-modified.git && \
+cd patching-lightning && \
+npm install && \
+cd node_modules/webtorrent/ && \
+sudo rm -r node_modules/ && \
+npm install && \
+cd /home/ubuntu && \
+export LC_ALL=C && \
+sudo apt install -y python3-pip && \
+cd patching-lightning/Utils/AddressGeneration && \
+sudo pip3 install -r requirements.txt
+
