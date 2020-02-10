@@ -11,7 +11,7 @@ sleep 60
 
 # Run lightning process
 echo "Running the lightning daemon..."
-nohup /home/ubuntu/lightning/lightningd/lightningd --daemon &
+nohup /home/ubuntu/lightning/lightningd/lightningd --network=$NETWORK --log-level=debug --log-file=lightningProcessLog.log --addr=0.0.0.0:9735 --bitcoin-rpcuser=ubuntu --bitcoin-rpcpassword=ubuntu --daemon &
 
 # Letting the lightning process to start
 sleep 60
