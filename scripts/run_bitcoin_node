@@ -20,9 +20,12 @@ sleep 60
 echo "Running the mining process..."
 if test "$NETWORK" = "regtest"
 then
-	bitcoin-cli generate 202
-	cd /home/ubuntu
+        bitcoin-cli generate 202
+        cd /home/ubuntu
+        lightningAddr=$(lightning/cli/lightning-cli newaddr p2sh-segwit | jq -r .address)
+        bitcoin-cli sendtoaddress $lightningAddr 0.05
+        sleep 10
+        bitcoin-cli generate 202
         echo "#!/bin/sh \n while true; do bitcoin-cli generate 1; sleep 300; done" > mining
-	chmod +x mining
+        chmod +x mining
 fi
-

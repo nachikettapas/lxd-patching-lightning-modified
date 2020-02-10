@@ -1,0 +1,37 @@
+#!/bin/bash
+random=$(cat ~/lxd-patching-lightning/workdir/seed_file/random.txt)
+echo $random
+
+# Number of instances
+NODES=$1
+VENDORS=$2
+DISTRIBUTORS=$3
+IOTS=$4
+
+for i in $( seq 1 $NODES )
+do
+	lxc stop "bitcoin-node-$random-$i"
+	sleep 5
+	lxc delete "bitcoin-node-$random-$i"
+done
+
+for i in $( seq 1 $VENDORS )
+do
+	lxc stop "vendor-$random-$i"
+	sleep 5
+	lxc delete "vendor-$random-$i"
+done
+
+for i in $( seq 1 $DISTRIBUTORS )
+do
+	lxc stop "distributor-$random-$i"
+	sleep 5
+	lxc delete "distributor-$random-$i"
+done
+
+for i in $( seq 1 $IOTS )
+do
+	lxc stop "iot-$random-$i"
+	sleep 5
+	lxc delete "iot-$random-$i"
+done
