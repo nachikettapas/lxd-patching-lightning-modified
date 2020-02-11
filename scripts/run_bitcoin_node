@@ -4,14 +4,14 @@ NETWORK=$1
 
 # Run the bitcoind process
 echo "Running the bitcoin daemon..."
-bitcoind --datadir=/home/ubuntu/.bitcoin > runLogBitcoin.log 2>&1 &
+nohup bitcoind --datadir=/home/ubuntu/.bitcoin > runLogBitcoin.log 2>&1 &
 
 # Letting the bitcoin process to start
 sleep 60
 
 # Run lightning process
 echo "Running the lightning daemon..."
-/home/ubuntu/lightning/lightningd/lightningd --network=$NETWORK --log-level=debug --log-file=lightningProcessLog.log --bind-addr=0.0.0.0:9735 --bitcoin-rpcuser=ubuntu --bitcoin-rpcpassword=ubuntu --daemon &
+nohup /home/ubuntu/lightning/lightningd/lightningd --network=$NETWORK --daemon > runLogLightning.log 2>&1 &
 
 # Letting the lightning process to start
 sleep 60
@@ -24,6 +24,7 @@ then
         cd /home/ubuntu
         lightningAddr=$(lightning/cli/lightning-cli --network=$NETWORK newaddr p2sh-segwit | jq -r .address)
         bitcoin-cli sendtoaddress $lightningAddr 0.05
-        echo "#!/bin/sh \n while true; do sleep 300; bitcoin-cli generate 1; done" > mining
+        bitcoin-cli generate 20
+        echo "#!/bin/sh \n while true; do bitcoin-cli generate 1; sleep 300; done" > mining
         chmod +x mining
 fi
