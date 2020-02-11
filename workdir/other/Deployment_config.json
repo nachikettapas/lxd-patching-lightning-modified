@@ -6,6 +6,6 @@
   "rpcPort": "18443",
   "lightningHubNodeID": "",
   "lightningPort": "9735",
-  "vendorIp": "10.29.7.51",
+  "vendorIp": "",
   "vendorPort": "8080"
 }
