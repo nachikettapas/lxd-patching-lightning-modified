@@ -1,5 +1,5 @@
 #!/bin/bash
-random=$(cat ~/lxd-patching-lightning/workdir/seed_file/random.txt)
+random=$(cat ~/lxd-patching-lightning-modified/workdir/seed_file/$5)
 echo $random
 
 # Number of instances

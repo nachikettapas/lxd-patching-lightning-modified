@@ -2,7 +2,7 @@
 FILENAME=$7
 RANDOM=$$
 random=$RANDOM
-echo $random > "/home/ntapasunime/lxd-patching-lightning/workdir/seed_file/$FILENAME"
+echo $random > "/home/ntapasunime/lxd-patching-lightning-modified/workdir/seed_file/$FILENAME"
 
 # Number of instances
 NODES=$1
@@ -46,7 +46,18 @@ do
         echo "Starting Bitcoin Machine..."
 	lxc copy "base-machine" "bitcoin-node-$random-$i"
 	lxc start "bitcoin-node-$random-$i"
-	sleep 10
+	while true
+	do
+        	sleep 10
+        	IP=$(lxc info "bitcoin-node-$random-$i" | grep "eth0:\sinet\s" | cut -f3)
+		echo $IP
+        	if [ -z "$IP" ]
+        	then
+                	lxc restart "bitcoin-node-$random-$i"
+		else
+			break
+        	fi
+	done
 	echo "Setting up hostname..."
 	lxc exec bitcoin-node-$random-$i -- sudo --login --user ubuntu bash -ilc "echo $(hostname -I | cut -d\  -f1) bitcoin-node-$random-$i | sudo tee -a /etc/hosts"
 	echo "SSH key generation..."
@@ -74,7 +85,17 @@ do
         echo "Starting Vendor Machine..."
 	lxc copy "base-machine" "vendor-$random-$i"
 	lxc start "vendor-$random-$i"
-	sleep 10
+	while true
+	do
+        	sleep 10
+        	IP=$(lxc info "vendor-$random-$i" | grep "eth0:\sinet\s" | cut -f3)
+        	if [ -z "$IP" ]
+        	then
+                	lxc restart "vendor-$random-$i"
+		else
+			break
+        	fi
+	done
 	lxc exec vendor-$random-$i -- sudo --login --user ubuntu bash -ilc "echo $(hostname -I | cut -d\  -f1) vendor-$random-$i | sudo tee -a /etc/hosts"
 	echo "SSH key generation..."
 	lxc exec vendor-$random-$i -- sudo --login --user ubuntu bash -ilc "ssh-keygen -b 2048 -t rsa -f /home/ubuntu/.ssh/id_rsa -q -N \"\""
@@ -106,7 +127,17 @@ do
         echo "Starting Distributor Machine..."
 	lxc copy "base-machine" "distributor-$random-$i"
 	lxc start "distributor-$random-$i"
-	sleep 10
+	while true
+	do
+        	sleep 10
+        	IP=$(lxc info "distributor-$random-$i" | grep "eth0:\sinet\s" | cut -f3)
+        	if [ -z "$IP" ]
+        	then
+                	lxc restart "dsitributor-$random-$i"
+		else
+			break
+        	fi
+	done
 	lxc exec distributor-$random-$i -- sudo --login --user ubuntu bash -ilc "echo $(hostname -I | cut -d\  -f1) distributor-$random-$i | sudo tee -a /etc/hosts"
 	echo "Pushing bitcoin node public key..."
 	for j in $( seq 1 $NODES )
@@ -125,7 +156,7 @@ do
 		lxc exec bitcoin-node-$random-$j -- sudo --login --user ubuntu bash -ilc "echo exit | ssh -o \"StrictHostKeyChecking no\" ubuntu@$distributor_ip | echo connected"
 	done
 	echo "Install and configure upnp..."
-	lxc exec distributor-$random-$i -- sudo --login --user ubuntu bash -ilc "sudo apt-get update && sudo apt-get install -y miniupnpc && upnpc -a $vendor_ip $UDPPORT $UDPPORT UDP"
+	lxc exec distributor-$random-$i -- sudo --login --user ubuntu bash -ilc "sudo apt-get update && sudo apt-get install -y miniupnpc && upnpc -a $distributor_ip $UDPPORT $UDPPORT UDP"
 done
 
 # IoT nodes
@@ -134,7 +165,17 @@ do
         echo "Starting IoT Machine..."
 	lxc copy "base-machine" "iot-$random-$i"
 	lxc start "iot-$random-$i"
-	sleep 10
+	while true
+	do
+        	sleep 10
+        	IP=$(lxc info "iot-$random-$i" | grep "eth0:\sinet\s" | cut -f3)
+        	if [ -z "$IP" ]
+        	then
+                	lxc restart "iot-$random-$i"
+		else
+			break
+        	fi
+	done
 	lxc exec iot-$random-$i -- sudo --login --user ubuntu bash -ilc "echo $(hostname -I | cut -d\  -f1) iot-$random-$i | sudo tee -a /etc/hosts"
 	echo "Pushing bitcoin node public key..."
 	for j in $( seq 1 $NODES )
@@ -164,7 +205,7 @@ do
 		lxc exec vendor-$random-$j -- sudo --login --user ubuntu bash -ilc "echo exit | ssh -o \"StrictHostKeyChecking no\" ubuntu@$iot_ip | echo \"vendor node $j connected\""
 	done
 	echo "Install and configure upnp..."
-	lxc exec iot-$random-$i -- sudo --login --user ubuntu bash -ilc "sudo apt-get update && sudo apt-get install -y miniupnpc && upnpc -a $vendor_ip $UDPPORT $UDPPORT UDP"
+	lxc exec iot-$random-$i -- sudo --login --user ubuntu bash -ilc "sudo apt-get update && sudo apt-get install -y miniupnpc && upnpc -a $iot_ip $UDPPORT $UDPPORT UDP"
 done
 
 # Prepare installation files
