@@ -4,8 +4,8 @@
   "rpcPassword": "ubuntu",
   "host": "10.98.143.33",
   "rpcPort": "18443",
-  "lightningHubNodeID": "039c5f036029b1296674cbf82dc6de278dc740251a540b459b615322f454306a9f",
+  "lightningHubNodeID": "0319d7e8b48f955e901c521ed845e64b95dee3e5986f9dcce95a9aa2b65c8fa147",
   "lightningPort": "9735",
-  "vendorIp": "10.98.140.138",
+  "vendorIp": "10.98.141.36",
   "vendorPort": "8080"
 }

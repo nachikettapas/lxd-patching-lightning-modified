@@ -1,0 +1,7 @@
+random=$(cat /home/ntapasunime/lxd-patching-lightning-modified/workdir/seed_file/$1)
+echo $random
+
+for i in $( seq 1 100 )
+do
+       lxc file push /home/ntapasunime/LightningClient.js iot-$random-$i/home/ubuntu/patching-lightning/Utils/
+done

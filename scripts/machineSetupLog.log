@@ -1,0 +1,27 @@
+TYPE=node
+NETWORK=regtest
+TYPE=other
+NETWORK=regtest
+Starting Bitcoin Machine...
+10.98.143.33
+Setting up hostname...
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+10.128.0.63 bitcoin-node-18181-1
+SSH key generation...
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+Restarting SSH service...
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+Pulling SSH public key...
+Copying execution file to machine 1...
+Copying config file to machine 1...
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+Executing execution file to machine 1...
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+Running the bitcoin daemon...

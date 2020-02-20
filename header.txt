@@ -1,0 +1,7 @@
+/**
+ * Created by User on 17/07/2018.
+ */
+var configFilePath = '../../Vendor_configEx.json'
+var vendorServerUrl = 'ws://'
+var mapMarkersJson =
+{

@@ -1,0 +1,22 @@
+CHOICE=$1
+
+if [ $CHOICE = "create" ]
+then	
+	for i in $( seq 1 100 )
+	do
+		lxc launch ubuntu:16.04 "machine-$i"
+		sleep 5
+		IP=$(lxc info "machine-$i" | grep "eth0:\sinet\s" | cut -f3)
+		if [ -z "$IP" ]
+		then
+			sleep 10
+			lxc restart "machine-$i"
+		fi
+	done
+else
+	for i in $( seq 1 100 )
+	do
+		lxc stop "machine-$i"
+		lxc delete "machine-$i"
+	done
+fi
