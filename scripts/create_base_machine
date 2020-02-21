@@ -52,7 +52,8 @@ cd /home/ubuntu && \
 git clone https://github.com/ElementsProject/lightning.git && \
 cd lightning && \
 ./configure && \
-make
+make && \
+sudo make install
 
 # Clone main repository
 cd /home/ubuntu && \
